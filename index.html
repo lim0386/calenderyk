@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>내 일정 보기</title>
+  <style>
+    body { font-family: sans-serif; padding: 20px; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+    th { background-color: #f4f4f4; }
+  </style>
+</head>
+<body>
+  <h2>이번 주 일정</h2>
+  <table id="calendarTable">
+    <thead><tr><th>일정</th><th>시간</th></tr></thead>
+    <tbody></tbody>
+  </table>
+
+  <script>
+    // 1. GAS API 주소 호출
+    fetch('https://script.google.com/macros/s/AKfycbwXT4JSxDsZUqelxXCx8s4S16YnVHVm0kwGy_m6S1DLyiawWB_CQf1BUS_NqazWbakY/exec')
+      .then(response => response.json())
+      .then(data => {
+        const tbody = document.getElementById('calendarTable').querySelector('tbody');
+        data.forEach(item => {
+          const row = `<tr><td>${item.title}</td><td>${item.startTime || item.time}</td></tr>`;
+          tbody.innerHTML += row;
+        });
+      });
+  </script>
+</body>
+</html>
